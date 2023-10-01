@@ -1,0 +1,56 @@
+class Book
+{
+private:
+    char* title;
+    char* authors;
+    int publishingYear;
+
+public:
+    Book()
+    {
+        publishingYear = 0;
+        title = nullptr;
+        authors = nullptr;
+    }
+
+    Book(const char* title, const char* authors, int publishingYear)
+    {
+        this->publishingYear = publishingYear;
+        this->title = new char[strlen(title) + 1];
+        strcpy(this->title, title);
+        this->authors = new char[strlen(authors) + 1];
+        strcpy(this->authors, authors);
+    }
+
+    ~Book()
+    {
+        if (title != nullptr)
+            delete[] title;
+        if (authors != nullptr)
+            delete[] authors;
+    }
+
+  friend bool checkAuthor(const Book& book, const char* author)
+{
+    string authorToCheck = author;
+    string authorsStr = book.authors;
+    transform(authorToCheck.begin(), authorToCheck.end(), authorToCheck.begin(), ::tolower);
+    transform(authorsStr.begin(), authorsStr.end(), authorsStr.begin(), ::tolower);
+    vector<string> authorList;
+    size_t pos = 0;
+    while ((pos = authorsStr.find(", ")) != std::string::npos)
+    {
+       string authorName = authorsStr.substr(0, pos);
+        authorList.push_back(authorName);
+        authorsStr.erase(0, pos + 2);
+    }
+    authorList.push_back(authorsStr); 
+    for (const string& authorName : authorList)
+    {
+        if (authorName == authorToCheck)
+        {
+            return true; 
+        }
+    }
+    return false;
+};
