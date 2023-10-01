@@ -1,0 +1,52 @@
+class Book
+{
+private:
+    char *title;
+    char *authors;
+    int publishingYear;
+
+public:
+    Book()
+    {
+        publishingYear = 0;
+        title = nullptr;
+        authors = nullptr;
+    }
+
+    Book(const char *title, const char *authors, int publishingYear)
+    {
+       this->publishingYear = publishingYear;
+        this->title = new char[strlen(title) + 1];
+        strcpy(this->title, title);
+        this->authors = new char[strlen(authors) + 1];
+        strcpy(this->authors, authors);
+    }
+    
+    ~Book()
+    {
+      
+    }
+    
+    friend class Printer;
+};
+
+class Printer
+{
+public:
+    static void printBook(const Book book)
+    {
+        cout << book.title << endl;
+
+        string authorsStr = book.authors;
+        size_t pos = 0;
+        while ((pos = authorsStr.find(", ")) != string::npos)
+        {
+            string authorName = authorsStr.substr(0, pos);
+            cout << authorName << endl;
+            authorsStr.erase(0, pos + 2);
+        }
+       cout << authorsStr << endl;
+
+        cout << book.publishingYear << endl;
+    }
+};
