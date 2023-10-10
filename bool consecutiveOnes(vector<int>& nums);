@@ -1,0 +1,21 @@
+bool consecutiveOnes(vector<int>& nums) {
+   int n = nums.size();
+    if (n == 0)
+    {
+        return true;
+    }
+    int consecutiveCount = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        if (nums[i] == 1 && consecutiveCount == 0)
+        {
+            consecutiveCount++;
+        } 
+       else if (nums[i-1] != 1 && nums[i] == 1 && consecutiveCount > 0)
+        {
+            return false;
+        }
+      
+    }
+    return consecutiveCount > 0;
+}
