@@ -1,0 +1,29 @@
+bool hasSameFirstLetter(const vector<string>& subarray) {
+    if (subarray.empty()) return true;
+    char firstLetter = subarray[0][0];
+    for (const string& word : subarray) {
+        if (word[0] != firstLetter) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int longestSublist(vector<string>& words) {
+    int maxLength = 0;
+    int currentStart = 0;
+
+    for (int i = 0; i < words.size(); ++i) {
+        if (!hasSameFirstLetter(vector<string>(words.begin() + currentStart, words.begin() + i + 1))) {
+            int currentLength = i - currentStart;
+            maxLength = max(maxLength, currentLength);
+            currentStart = i;
+        }
+    }
+
+    
+    int currentLength = words.size() - currentStart;
+    maxLength = max(maxLength, currentLength);
+
+    return maxLength;
+}
