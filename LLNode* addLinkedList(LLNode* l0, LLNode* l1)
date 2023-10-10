@@ -1,0 +1,20 @@
+LLNode* addLinkedList(LLNode* l0, LLNode* l1) {
+    LLNode* res_head = new LLNode();
+    LLNode* res_tail = res_head;
+    int carry = 0;
+    while (l0 || l1 || carry) {
+        int sum = carry;
+        if (l0) {
+            sum += l0->val;
+            l0 = l0->next;
+        }
+        if (l1) {
+            sum += l1->val;
+            l1 = l1->next;
+        }
+        carry = sum / 10; 
+        res_tail->next = new LLNode(sum % 10,nullptr); 
+        res_tail = res_tail->next;
+    }
+    return res_head->next;
+}
