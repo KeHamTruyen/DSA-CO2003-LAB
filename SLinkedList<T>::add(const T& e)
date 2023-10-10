@@ -1,0 +1,60 @@
+template <class T>
+void SLinkedList<T>::add(const T& e) {
+    Node* newNode = new Node(e);
+    if (head == nullptr) {
+        head = newNode;
+        tail = newNode;
+    } else {
+        tail->next = newNode;
+        tail = newNode;
+    }
+    count++;
+    
+}
+
+template<class T>
+void SLinkedList<T>::add(int index, const T& e) {
+     if (index < 0 || index > count) {
+        throw std::out_of_range("Index is out of bounds");
+    }
+
+    Node* newNode = new Node(e);
+    
+    if (index == 0) {
+        // Thêm vào đầu danh sách
+        newNode->next = head;
+        head = newNode;
+        if (tail == nullptr) {
+            // Nếu danh sách rỗng, cập nhật tail
+            tail = newNode;
+        }
+    } else if (index == count) {
+        // Thêm vào cuối danh sách
+        if (tail == nullptr) {
+            // Nếu danh sách rỗng, cập nhật head và tail
+            head = newNode;
+            tail = newNode;
+        } else {
+            // Nếu danh sách không rỗng, cập nhật tail
+            tail->next = newNode;
+            tail = newNode;
+        }
+    } else {
+        // Thêm vào vị trí khác
+        Node* current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+
+    count++;
+    
+}
+
+template<class T>
+int SLinkedList<T>::size() {
+    /* Return the length (size) of list */ 
+    return count;
+}
