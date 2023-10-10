@@ -1,0 +1,16 @@
+int findMax(int* arr, int length) {
+   
+    if (length == 1) {
+        return arr[0];
+    } else {
+        
+        int maxInRest = findMax(arr + 1, length - 1);
+        
+       
+        if (arr[0] > maxInRest) {
+            return arr[0]; 
+        } else {
+            return maxInRest; 
+        }
+    }
+}
