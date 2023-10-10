@@ -1,0 +1,79 @@
+template <class T>
+T SLinkedList<T>::removeAt(int index)
+{
+    if (index < 0 || index >= count) {
+        throw std::out_of_range("Index is out of bounds");
+    }
+
+    if (index == 0) {
+        // Xóa nút đầu tiên
+        Node* removedNode = head;
+        head = head->next;
+        T data = removedNode->data;
+        delete removedNode;
+        count--;
+        return data;
+    } else {
+        // Xóa nút ở vị trí khác
+        Node* current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+        Node* removedNode = current->next;
+        current->next = removedNode->next;
+        if (index == count - 1) {
+            // Nếu đang xóa nút cuối cùng, cập nhật tail
+            tail = current;
+        }
+        T data = removedNode->data;
+        delete removedNode;
+        count--;
+        return data;
+    }
+}
+
+template <class T>
+bool SLinkedList<T>::removeItem(const T& item)
+{
+   Node* current = head;
+    Node* prev = nullptr;
+
+    while (current != nullptr) {
+        if (current->data == item) {
+            if (prev == nullptr) {
+                // Xóa nút đầu tiên
+                head = current->next;
+                if (count == 1) {
+                    // Nếu chỉ còn một nút, cập nhật tail
+                    tail = nullptr;
+                }
+            } else {
+                prev->next = current->next;
+                if (current == tail) {
+                    // Nếu đang xóa nút cuối cùng, cập nhật tail
+                    tail = prev;
+                }
+            }
+            delete current;
+            count--;
+            return true;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    return false;
+    
+}
+
+template<class T>
+void SLinkedList<T>::clear(){
+    while (head != nullptr) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+    tail = nullptr;
+    count = 0;
+}
+
