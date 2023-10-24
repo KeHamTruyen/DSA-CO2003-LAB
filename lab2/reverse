@@ -1,0 +1,60 @@
+/*
+struct ListNode {
+    int val;
+    ListNode *left;
+    ListNode *right;
+    ListNode(int x = 0, ListNode *l = nullptr, ListNode* r = nullptr) : val(x), left(l), right(r) {}
+};
+*/
+
+ListNode* reverse(ListNode* head, int a, int b) {
+ if (head == nullptr || a == b) {
+        return head;
+    }
+
+    ListNode dummy(0); // Node giả để giúp xử lý đầu danh sách dễ dàng.
+    dummy.right = head;
+    ListNode* prev = &dummy;
+    int pos = 1;
+
+    // Di chuyển prev đến node trước 'a'.
+    while (pos < a) {
+        prev = prev->right;
+        pos++;
+    }
+
+    ListNode* curr = prev->right;
+    ListNode* next;
+
+    // Phần đảo ngược từ 'a' đến 'b'.
+    ListNode* reversedHead = nullptr;
+    ListNode* reversedTail = nullptr;
+
+    while (pos <= b) {
+        next = curr->right;
+        curr->right = nullptr;
+        curr->left = nullptr;
+
+        if (reversedHead == nullptr) {
+            reversedHead = curr;
+            reversedTail = curr;
+        } else {
+            curr->right = reversedHead;
+            reversedHead->left = curr;
+            reversedHead = curr;
+        }
+
+        curr = next;
+        pos++;
+    }
+
+    // Kết nối phần đảo ngược với phần còn lại của danh sách.
+    prev->right = reversedHead;
+    reversedHead->left = prev;
+    reversedTail->right = curr;
+    if (curr != nullptr) {
+        curr->left = reversedTail;
+    }
+
+    return dummy.right;
+}
