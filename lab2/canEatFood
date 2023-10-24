@@ -1,0 +1,53 @@
+bool canEatFood(int maze[5][5], int fx, int fy) {
+   int N = 5, M = 5; // Kích thước mê cung
+    bool visited[5][5] = {false};
+    stack<node> s;
+     
+    node start(0, 0);
+    s.push(start);
+ 
+    while (!s.empty()) {
+        node current = s.top();
+        int d = current.dir;
+        int i = current.x, j = current.y;
+ 
+        current.dir++;
+        s.pop();
+        s.push(current);
+ 
+        if (i == fx && j == fy) {
+            return true; // Đã tìm thấy đường đến thức ăn
+        }
+ 
+        if (d == 0) { // Kiểm tra hướng lên
+            if (i - 1 >= 0 && maze[i - 1][j] && !visited[i - 1][j]) {
+                node next(i - 1, j);
+                visited[i - 1][j] = true;
+                s.push(next);
+            }
+        } else if (d == 1) { // Kiểm tra hướng trái
+            if (j - 1 >= 0 && maze[i][j - 1] && !visited[i][j - 1]) {
+                node next(i, j - 1);
+                visited[i][j - 1] = true;
+                s.push(next);
+            }
+        } else if (d == 2) { // Kiểm tra hướng xuống
+            if (i + 1 < N && maze[i + 1][j] && !visited[i + 1][j]) {
+                node next(i + 1, j);
+                visited[i + 1][j] = true;
+                s.push(next);
+            }
+        } else if (d == 3) { // Kiểm tra hướng phải
+            if (j + 1 < M && maze[i][j + 1] && !visited[i][j + 1]) {
+                node next(i, j + 1);
+                visited[i][j + 1] = true;
+                s.push(next);
+            }
+        } else {
+            visited[current.x][current.y] = true;
+            s.pop();
+        }
+    }
+ 
+    return false; // Không tìm thấy đường đi đến thức ăn
+}
