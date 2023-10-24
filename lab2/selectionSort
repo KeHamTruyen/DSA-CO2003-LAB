@@ -1,0 +1,24 @@
+template <class T>
+void Sorting<T>::selectionSort(T *start, T *end){
+ int n = end - start;
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            // Find the minimum element in the unsorted part of the array
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++)
+            {
+                if (start[j] < start[minIndex])
+                {
+                    minIndex = j;
+                }
+            }
+
+            // Swap the found minimum element with the first element
+            swap(start[i], start[minIndex]);
+
+            // Print the array after each selection
+          
+            printArray(start, end);
+        }
+}
