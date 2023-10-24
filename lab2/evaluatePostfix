@@ -1,0 +1,30 @@
+#include <sstream> 
+
+int evaluatePostfix(const std::string& expr) {
+    std::istringstream ss(expr);
+    std::stack<int> operands;
+    std::string token;
+
+    while (ss >> token) {
+        if (isdigit(token[0])) {
+            operands.push(std::stoi(token));
+        } else {
+            int operand2 = operands.top();
+            operands.pop();
+            int operand1 = operands.top();
+            operands.pop();
+
+            if (token == "+") {
+                operands.push(operand1 + operand2);
+            } else if (token == "-") {
+                operands.push(operand1 - operand2);
+            } else if (token == "*") {
+                operands.push(operand1 * operand2);
+            } else if (token == "/") {
+                operands.push(operand1 / operand2);
+            }
+        }
+    }
+
+    return operands.top();
+}
