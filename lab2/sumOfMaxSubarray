@@ -1,0 +1,32 @@
+int sumOfMaxSubarray(vector<int>& nums, int k) {
+ int n = nums.size();
+
+    if (k <= 0 || k > n) {
+        return 0;
+    }
+
+    int maxSum = 0;
+    int currentMax = 0;
+    for (int i = 0; i < k; i++) {
+        currentMax = max(currentMax, nums[i]);
+    }
+    maxSum = currentMax;
+    for (int i = k; i < n; i++) {
+        int oldElement = nums[i - k];
+        if (oldElement == currentMax) {
+            currentMax = nums[i - k + 1];
+            for (int j = i - k + 1; j <= i; j++) {
+                currentMax = max(currentMax, nums[j]);
+            }
+        }
+        int newElement = nums[i];
+        if (newElement >= currentMax) {
+            currentMax = newElement;
+        }
+
+        maxSum += currentMax;
+    }
+
+    return maxSum;
+    
+}
