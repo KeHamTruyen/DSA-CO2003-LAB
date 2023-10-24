@@ -1,0 +1,51 @@
+// iostream, vector and queue are included
+// Hint: use breadth-first-search
+const vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+int secondsToBeRotten(vector<vector<int>>& grid) {
+     int n = grid.size();
+    int m = grid[0].size();
+    
+    int freshApples = 0; // Đếm số quả táo tươi còn lại
+
+    queue<pair<int, int>> rottenApples; // Hàng đợi lưu vị trí quả táo thối và thời gian
+
+    // Đếm quả táo tươi ban đầu và thêm quả táo thối vào hàng đợi
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (grid[i][j] == 2) {
+                rottenApples.push({i, j});
+            } else if (grid[i][j] == 1) {
+                freshApples++;
+            }
+        }
+    }
+
+    int time = 0; // Thời gian cần để thối hết quả táo tươi
+    while (!rottenApples.empty()) {
+        int count = rottenApples.size();
+        for (int i = 0; i < count; i++) {
+            pair<int, int> pos = rottenApples.front();
+            rottenApples.pop();
+
+            for (const pair<int, int>& dir : directions) {
+                int x = pos.first + dir.first;
+                int y = pos.second + dir.second;
+
+                if (x >= 0 && x < n && y >= 0 && y < m && grid[x][y] == 1) {
+                    grid[x][y] = 3; // Đánh dấu quả táo tươi trở thành quả táo thối
+                    freshApples--;
+                    rottenApples.push({x, y});
+                }
+            }
+        }
+        if (!rottenApples.empty()) {
+            time++; // Tăng thời gian sau mỗi giây
+        }
+    }
+
+    if (freshApples > 0) {
+        return -1; // Còn quả táo tươi không thể thối hết
+    } else {
+        return time;
+    }
+}
