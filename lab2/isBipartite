@@ -1,0 +1,35 @@
+bool isBipartite(vector<vector<int>> graph) 
+{ 
+    int numOfVertices = graph.size();
+    vector<int> colorArr(numOfVertices, -1); 
+
+    for (int start = 0; start < numOfVertices; ++start) 
+    {
+        if (colorArr[start] != -1) continue; // Đã được gán màu
+
+        colorArr[start] = 1;
+        queue<int> myQueue; 
+        myQueue.push(start); 
+
+        while (!myQueue.empty()) 
+        { 
+            start = myQueue.front(); 
+            myQueue.pop();
+            int degree = graph[start].size();
+            
+            for (int i = 0; i < degree; ++i) 
+            { 
+                int adjVer = graph[start][i];
+                
+                if (colorArr[adjVer] == -1) 
+                { 
+                    colorArr[adjVer] = 1 - colorArr[start]; 
+                    myQueue.push(adjVer); 
+                } 
+                else if (colorArr[adjVer] == colorArr[start]) 
+                    return false; 
+            }
+        }
+    } 
+    return true; 
+}
