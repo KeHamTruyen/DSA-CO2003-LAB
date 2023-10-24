@@ -1,0 +1,32 @@
+// iostream, vector and queue are included
+// You can write helper methods
+
+long long nthNiceNumber(int n) {
+ queue<long long> q;
+    q.push(2);
+    q.push(5);
+    
+    long long niceNumber = 0;
+    
+    for (int i = 1; i <= n; i++) {
+        // Lấy số đẹp tiếp theo trong hàng đợi
+        long long current = q.front();
+        q.pop();
+        
+        // Tạo số đẹp mới bằng cách thêm số 2 và số 5 vào cuối số hiện tại
+        long long nextNice1 = current * 10 + 2;
+        long long nextNice2 = current * 10 + 5;
+        
+        // Đưa các số đẹp mới vào hàng đợi
+        q.push(nextNice1);
+        q.push(nextNice2);
+        
+        // Số đẹp thứ N là số đang nằm ở đầu hàng đợi
+        if (i == n) {
+            niceNumber = current;
+            break;
+        }
+    }
+    
+    return niceNumber;
+}
