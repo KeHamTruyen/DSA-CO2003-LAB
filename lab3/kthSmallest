@@ -1,0 +1,27 @@
+int kthSmallest(BSTNode* root, int k) {
+    int count = 0; 
+    int result = -1; 
+    stack<BSTNode*> nodeStack; 
+
+    BSTNode* currentNode = root;
+
+    while (currentNode || !nodeStack.empty()) {
+        while (currentNode) {
+            nodeStack.push(currentNode);
+            currentNode = currentNode->left;
+        }
+
+        currentNode = nodeStack.top();
+        nodeStack.pop();
+
+        count++;
+        if (count == k) {
+            result = currentNode->val;
+            break;
+        }
+
+        currentNode = currentNode->right;
+    }
+
+    return result;
+}
