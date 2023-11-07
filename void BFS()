@@ -1,0 +1,22 @@
+void BFS()
+{
+ if (root == nullptr)
+            return;
+
+        queue<Node*> q;
+        q.push(root);
+
+        while (!q.empty())
+        {
+            Node* currentNode = q.front();
+            q.pop();
+            
+            cout << currentNode->value << " "; 
+
+            if (currentNode->pLeft)
+                q.push(currentNode->pLeft);
+
+            if (currentNode->pRight)
+                q.push(currentNode->pRight);
+        }
+    }
