@@ -1,0 +1,28 @@
+void longestPathSumRec(BTNode* node, int sum, int len, int& maxSum, int& maxLen)
+{
+    if (!node)
+    {
+        if (maxLen < len)
+        {
+            maxLen = len;
+            maxSum = sum;
+        }
+        else if (maxLen == len && maxSum < sum)
+        {
+            maxSum = sum;
+        }
+        return;
+    }
+    sum += node->val;
+    len += 1;
+    longestPathSumRec(node->left, sum, len, maxSum, maxLen);
+    longestPathSumRec(node->right, sum, len, maxSum, maxLen);
+}
+
+int longestPathSum(BTNode* root)
+{
+    int maxSum{};
+    int maxLen{};
+    longestPathSumRec(root, 0, 0, maxSum, maxLen);
+    return maxSum;
+}
