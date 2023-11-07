@@ -1,0 +1,18 @@
+int sumDigitPathRec(BTNode* node, int sum)
+{
+    if (!node)
+    {
+        return 0;
+    }
+    sum = (10 * sum + node->val)% 27022001 ;
+    if (!node->left && !node->right)
+    {
+        return sum;
+    }
+    return sumDigitPathRec(node->left, sum)% 27022001  + sumDigitPathRec(node->right, sum)% 27022001;
+}
+
+int sumDigitPath(BTNode* root)
+{
+    return sumDigitPathRec(root, 0);
+}
