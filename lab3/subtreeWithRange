@@ -1,0 +1,21 @@
+BSTNode* subtreeWithRange(BSTNode* root, int lo, int hi) {
+      if (!root)
+    {
+        return nullptr;   
+    }
+    root->left = subtreeWithRange(root->left, lo, hi);
+    root->right = subtreeWithRange(root->right, lo, hi);
+    if (root->val < lo)
+    {
+       BSTNode* rChild = root->right;
+       delete root;
+       return rChild;
+    }
+    if (root->val > hi)
+    {
+       BSTNode* lChild = root->left;
+       delete root;
+       return lChild;
+    }
+    return root;
+}
