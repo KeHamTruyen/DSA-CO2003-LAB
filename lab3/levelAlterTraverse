@@ -1,0 +1,43 @@
+vector<int> levelAlterTraverse(BSTNode* root) {
+      vector<int> result;
+    
+    if (root == nullptr) {
+        return result;
+    }
+
+    // Sử dụng một hàng đợi (queue) để duyệt cây theo mức
+    queue<BSTNode*> levelQueue;
+    levelQueue.push(root);
+    bool leftToRight = true; // Biến để xác định hướng duyệt
+
+    while (!levelQueue.empty()) {
+        int levelSize = levelQueue.size();
+        vector<int> currentLevel;
+
+        for (int i = 0; i < levelSize; i++) {
+            BSTNode* currentNode = levelQueue.front();
+            levelQueue.pop();
+
+            if (leftToRight) {
+                currentLevel.push_back(currentNode->val);
+            } else {
+                currentLevel.insert(currentLevel.begin(), currentNode->val);
+            }
+
+            if (currentNode->left) {
+                levelQueue.push(currentNode->left);
+            }
+            if (currentNode->right) {
+                levelQueue.push(currentNode->right);
+            }
+        }
+
+        // Thêm các giá trị của mức hiện tại vào kết quả
+        result.insert(result.end(), currentLevel.begin(), currentLevel.end());
+
+        // Đảo hướng duyệt cho mức tiếp theo
+        leftToRight = !leftToRight;
+    }
+
+    return result;
+}
