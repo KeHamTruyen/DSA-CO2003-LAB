@@ -1,0 +1,23 @@
+int lowestAncestorRec(BTNode* node, int a, int b)
+{
+    if (!node)
+    {
+        return -1;
+    }
+    if (a == node->val || b == node->val)
+    {
+        return node->val;
+    }
+    int left{ lowestAncestorRec(node->left, a, b) };
+    int right{ lowestAncestorRec(node->right, a, b) };
+    if (left != -1 && right != -1)
+    {
+        return node->val;
+    }
+    return (left != -1 ? left : right);
+}
+
+int lowestAncestor(BTNode* root, int a, int b) 
+{
+    return lowestAncestorRec(root, a, b);
+}
