@@ -1,0 +1,103 @@
+// write your helper functions here
+typedef Node *NodePtr;
+
+	void pLeftRotate(NodePtr x) {
+		NodePtr y = x->pRight;
+		x->pRight = y->pLeft;
+		if (y->pLeft != nullptr) {
+			y->pLeft->pParent = x;
+		}
+		y->pParent = x->pParent;
+		if (x->pParent == nullptr) {
+			this->root = y;
+		} else if (x == x->pParent->pLeft) {
+			x->pParent->pLeft = y;
+		} else {
+			x->pParent->pRight = y;
+		}
+		y->pLeft = x;
+		x->pParent = y;
+	}
+
+	// rotate pRight at node x
+	void pRightRotate(NodePtr x) {
+		NodePtr y = x->pLeft;
+		x->pLeft = y->pRight;
+		if (y->pRight != nullptr) {
+			y->pRight->pParent = x;
+		}
+		y->pParent = x->pParent;
+		if (x->pParent == nullptr) {
+			this->root = y;
+		} else if (x == x->pParent->pRight) {
+			x->pParent->pRight = y;
+		} else {
+			x->pParent->pLeft = y;
+		}
+		y->pRight = x;
+		x->pParent = y;
+	}
+
+	// splaying
+	void splay(NodePtr x) {
+		while (x->pParent) {
+			if (!x->pParent->pParent) {
+				if (x == x->pParent->pLeft) {
+					// zig rotation
+					pRightRotate(x->pParent);
+				} else {
+					// zag rotation
+					pLeftRotate(x->pParent);
+				}
+			} else if (x == x->pParent->pLeft && x->pParent == x->pParent->pParent->pLeft) {
+				// zig-zig rotation
+				pRightRotate(x->pParent->pParent);
+				pRightRotate(x->pParent);
+			} else if (x == x->pParent->pRight && x->pParent == x->pParent->pParent->pRight) {
+				// zag-zag rotation
+				pLeftRotate(x->pParent->pParent);
+				pLeftRotate(x->pParent);
+			} else if (x == x->pParent->pRight && x->pParent == x->pParent->pParent->pLeft) {
+				// zig-zag rotation
+				pLeftRotate(x->pParent);
+				pRightRotate(x->pParent);
+			} else {
+				// zag-zig rotation
+				pRightRotate(x->pParent);
+				pLeftRotate(x->pParent);
+			}
+		}
+	}
+
+void insert(int key) {
+		// normal BST insert
+		NodePtr node = new Node;
+		node->pParent = nullptr;
+		node->pLeft = nullptr;
+		node->pRight = nullptr;
+		node->val = key;
+		NodePtr y = nullptr;
+		NodePtr x = this->root;
+
+		while (x != nullptr) {
+			y = x;
+			if (node->val < x->val) {
+				x = x->pLeft;
+			} else {
+				x = x->pRight;
+			}
+		}
+
+		// y is pParent of x
+		node->pParent = y;
+		if (y == nullptr) {
+			root = node;
+		} else if (node->val < y->val) {
+			y->pLeft = node;
+		} else {
+			y->pRight = node;
+		}
+
+		// splay the node
+		splay(node);
+	}
