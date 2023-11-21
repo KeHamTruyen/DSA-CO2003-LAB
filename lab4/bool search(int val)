@@ -1,0 +1,40 @@
+bool search(int val) {
+    Node* foundNode = searchHelper(root, val);
+
+    if (foundNode) {
+        // Nếu tìm thấy giá trị, splay nút đó lên đỉnh
+        splay(foundNode);
+        return true;
+    } else {
+        // Nếu không tìm thấy giá trị, splay nút cuối cùng được truy cập lên đỉnh
+        splay(findLastAccessedNode(root, val));
+        return false;
+    }
+}
+
+// Tìm kiếm giá trị và trả về con trỏ đến nút chứa giá trị đó (hoặc nullptr nếu không tìm thấy)
+Node* searchHelper(Node* p, int val) {
+    if (!p || p->val == val) {
+        return p;
+    }
+
+    if (val < p->val) {
+        return searchHelper(p->pLeft, val);
+    } else {
+        return searchHelper(p->pRight, val);
+    }
+}
+
+// Tìm và trả về con trỏ đến nút cuối cùng được truy cập khi tìm kiếm
+Node* findLastAccessedNode(Node* p, int val) {
+    Node* lastAccessed = nullptr;
+    while (p) {
+        lastAccessed = p;
+        if (val < p->val) {
+            p = p->pLeft;
+        } else {
+            p = p->pRight;
+        }
+    }
+    return lastAccessed;
+}
