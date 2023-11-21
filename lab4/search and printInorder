@@ -1,0 +1,18 @@
+void printInorderRec(Node* node){
+    if (node==nullptr) return;
+    printInorderRec(node->pLeft);
+    cout<<node->data<<" ";
+    printInorderRec(node->pRight);
+}
+
+void printInorder(){ printInorderRec(root);}
+
+ bool search(Node* node,T value){
+     if (node==nullptr) return false;
+     else if (node->data==value)return true;
+     else if (node->data>value) return search(node->pLeft,value);
+     else return search(node->pRight,value);
+ }
+ 
+ bool search(const T &value)
+ {return search(root,value);}
