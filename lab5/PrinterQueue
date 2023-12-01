@@ -1,0 +1,38 @@
+#include <queue>
+
+class Node {
+   public:
+    int priority;
+    string fileName;
+    int timestamp;
+
+    Node(int p, string f, int t) : priority(p), fileName(f), timestamp(t) {}
+
+    // Overload the < operator for comparison in priority_queue
+    bool operator<(const Node& n) const {
+        if (priority == n.priority) {
+            return timestamp > n.timestamp;
+        }
+        return priority < n.priority;
+    }
+};
+
+class PrinterQueue {
+    priority_queue<Node> pq;
+    int time = 0;
+
+   public:
+    void addNewRequest(int priority, string fileName) {
+        pq.push(Node(priority, fileName, time++));
+    }
+
+    void print() {
+        if (pq.empty()) {
+            cout << "No file to print" << endl;
+        } else {
+            Node top = pq.top();
+            pq.pop();
+            cout << top.fileName << endl;
+        }
+    }
+};
